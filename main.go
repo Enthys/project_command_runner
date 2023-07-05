@@ -51,16 +51,16 @@ func init() {
 func parseConfig(config *Config) error {
 	file, err := os.OpenFile(*configPath, os.O_RDONLY, os.ModeAppend)
 	if err != nil {
-		return fmt.Errorf("Failed to open file %s. Error: %w", *configPath, err)
+		return fmt.Errorf("failed to open file %s. Error: %w", *configPath, err)
 	}
 
 	b, err := io.ReadAll(file)
 	if err != nil {
-		return fmt.Errorf("Failed to read configuration file. Error: %w", err)
+		return fmt.Errorf("failed to read configuration file. Error: %w", err)
 	}
 
 	if err = yaml.Unmarshal(b, config); err != nil {
-		return fmt.Errorf("Failed to parse configuration file. Error: %w", err)
+		return fmt.Errorf("failed to parse configuration file. Error: %w", err)
 	}
 
 	return nil
@@ -73,18 +73,18 @@ func removeExcludedProjects(config *Config) {
 }
 
 func filterByTags(config *Config) {
-	for projectName, project := range config.Projects {
-		remove := true
-		for _, projectTag := range project.Tags {
-			for _, searchTag := range *searchTags {
+	for _, searchTag := range *searchTags {
+		for projectName, project := range config.Projects {
+			remove := true
+			for _, projectTag := range project.Tags {
 				if projectTag == searchTag {
 					remove = false
 				}
 			}
-		}
 
-		if remove == true {
-			delete(config.Projects, projectName)
+			if remove {
+				delete(config.Projects, projectName)
+			}
 		}
 	}
 }
@@ -100,7 +100,7 @@ func excludeByTags(config *Config) {
 			}
 		}
 
-		if remove == true {
+		if remove {
 			delete(config.Projects, projectName)
 		}
 	}

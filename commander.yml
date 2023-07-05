@@ -1,0 +1,11 @@
+projects:
+  ssl:
+    path: test/ssl
+    tags:
+      - one
+      - go
+  vhost:
+    path: test/vhost
+    tags:
+      - one
+      - nest
